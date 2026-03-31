@@ -7,7 +7,7 @@ genai.configure(api_key=settings.GEMINI_API_KEY)
 class StylistService:
     def __init__(self):
         self.model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash"
+            model_name="gemini-2.5-flash"
         )
         
     async def generate_outfit_suggestion(self, closet_items:list, event:str):

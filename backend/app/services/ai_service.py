@@ -6,9 +6,9 @@ import json
 genai.configure(api_key=settings.GEMINI_API_KEY)
 
 class ClothingTagger:
-    def __inti__(self):
+    def __init__(self):
         self.model = genai.GenerativeModel(
-            model_name = "gemini-1.5-flash"
+            model_name = "gemini-2.5-flash"
         )
     
     async def tag_clothing_item(self, image_bytes: bytes) -> dict:
@@ -28,6 +28,7 @@ class ClothingTagger:
          - No explanation
          - No extra text
          - Only valid JSON
+         - No Markdown formatting
         """
         
         try:
@@ -41,11 +42,13 @@ class ClothingTagger:
             )
             
             #Extract JSON from response
-            raw_text = response .text.strip()
+            raw_text = response.text.strip()
             
             #Handle cases where model adds ```json``` wrappers
             if raw_text.startswith("```"):
+                print("Detected code block formatting, extracting JSON...")  #Debugging line
                 raw_text = raw_text.split("```")[1]
+                print("Raw model response:", raw_text)  #Debugging line
                 
             parsed = json.loads(raw_text)
             

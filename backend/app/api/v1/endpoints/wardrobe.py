@@ -8,7 +8,7 @@ router = APIRouter()
 async def upload_clothing(file: UploadFile = File(...)):
     image_bytes = await file.read()
     tags = await clothing_tagger.tag_clothing_item(image_bytes)
-    
+    print(f"Extracted tags: {tags}")
     #Store in supabase
     data = {
         "user_id": "demo_user",
