@@ -8,8 +8,8 @@ router = APIRouter()
 async def recommend_outfit(event:str):
     
     # Fetch Wardrobe
-    response = supabase.table("wardrobe").select("*").eq("user_id", "demmo_user").execute()
-    
+    response = supabase.table("wardrobe").select("*").execute()
+    print(f"Supabase response: {response}")  #Debugging line
     closet_items = response.data
     
     if not closet_items:

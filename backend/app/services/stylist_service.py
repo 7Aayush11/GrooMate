@@ -33,6 +33,7 @@ class StylistService:
         Rules:
         - Only JSON
         - No explanation outside JSON
+        - No markdown formatting
         """
         
         response = self.model.generate_content(system_prompt)
