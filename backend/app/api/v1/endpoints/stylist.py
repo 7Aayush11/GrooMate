@@ -1,14 +1,15 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from app.db.supabase_client import supabase
 from app.services.stylist_service import stylist_service
+from app.dependencies.auth import get_current_user
 
 router = APIRouter()
 
 @router.post("/recommend")
-async def recommend_outfit(event:str):
-    
+async def recommend_outfit(event:str, user=Depends(get_current_user)):
+    user_id = user["sub"]
     # Fetch Wardrobe
-    response = supabase.table("wardrobe").select("*").execute()
+    response = supabase.table("wardrobe").select("*").eq("user_id", user_id).execute()
     print(f"Supabase response: {response}")  #Debugging line
     closet_items = response.data
     
