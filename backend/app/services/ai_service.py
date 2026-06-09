@@ -18,12 +18,28 @@ class ClothingTagger:
         system_prompt = """
         You are a fashion expert. Analyze the clothing item image and return STRICT JSON only.
         Format:{
-            "category": "top/bottom/shoes/accessory",
-            "color": "primary color",
-            "material": "fabric type",
-            "pattern": "solid/stripped/printed/etc",
-            "formality": "casual/semi-formal/formal"
+            "category": "",
+            "color": "",
+            "material": "",
+            "pattern": "",
+            "formality": "",
+
+            "style_aesthetic": [],
+            "fashion_identity": [],
+            "occasion_vibes": [],
+            "season": [],
+            "color_energy": "",
+            "silhouette": "",
+            "layering_compatibility": "",
+
+            "styling_notes": ""
         }
+
+        Focus heavily on:
+         - fashion aesthetics
+         - cultural style associations
+         - modern fashion language
+         - vibe interpretation
         Rules:
          - No explanation
          - No extra text
@@ -59,6 +75,21 @@ class ClothingTagger:
                 "error": str(e),
                 "raw_response": response.text if 'response' in locals() else None
             }
+    
+    def build_fashion_description(self, tags):
+        aesthetics = " ".join(tags['style_aesthetic'])
+        identities = " ".join(tags['fashion_identity'])
+        vibes = " ".join(tags['occasion_vibes'])
+        seasons = " ".join(tags['season'])
+        
+        return f"""{tags['color']} {tags['material']} {tags['category']}
+            Aesthetic: {aesthetics}
+            Fashion Identity: {identities}
+            Occasion Vibes: {vibes}
+            Seasons: {seasons}
+            Color Energy: {tags['color_energy']}
+            Silhouette: {tags['silhouette']}
+            Styling Notes:{tags['styling_notes']}"""
 
 #Sinlgeton instance (important for performance)
 clothing_tagger = ClothingTagger()
